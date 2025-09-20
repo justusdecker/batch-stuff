@@ -1,0 +1,4 @@
+all:
+	gcc ./src/MouseHandler.c -o ./mhndl.exe
+	gcc ./src/cecho.c -o ./cecho.exe
+	main.bat

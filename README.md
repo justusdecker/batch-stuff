@@ -41,3 +41,17 @@ call :class_generic 51 62
 echo The ID of the second instance: %_2_id% 
 echo The height of the first instance: %_1_height%
 ```
+
+### How to run
+
+* On first startup
+
+```shell
+make
+```
+
+* After compilation
+
+```shell
+./main.bat
+```
