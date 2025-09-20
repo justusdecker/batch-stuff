@@ -1,70 +1,56 @@
+@echo off
 :: Declaring essentials runtime variables
-
 set RETURN = ""
-set RETURN = ""
+set /a id = 0
 
-for /l %%a in (0,1,5) do (
-        call :func_rnd 2 10 20
-        echo !rnd!
-    )
+call :class_generic 50 50
 
-::call :class_map 1 50 50
+call :class_generic 51 62
 
-:OutOfFrameExeception
-    :: After this the application will overwrite unwanted values, so we catch this and goto EOL
-    echo "Reached the allowed Frame & quit for safety reason"
-    goto :EOL
+:: You can get the variables by using {id}_{attr_name} so:
+echo %_2_id% 
+echo %_1_height%
 
+
+goto :EOF
 
 :func_rnd
     set /a max = %3
     set /a min = %2
     set /a rnd=( %RANDOM% %% (%3 - %2 + 1) ) + %2
-    goto :RETURN
-
-:class_map
-    :: Generates a map
-    ::  (int) id
-    ::  (int) width
-    ::  (int) height
-    :: 1. Generate a 50 * 50 Map
-    :: 2. For each Step generate a tile 0 or 1
-    :: 3. Smooth out the map
-    :: 4. print out the map
-
-    if [%1] EQU [] echo None
-    
-    
-    set %1_width = %2
-    set %1_height = %3
-
-    for /l %%a in (0,1,%2) do (
-    for /l %%b in (0,1,%3) do (
-        echo %%a_%%b
-    )
-    )
-    call :
     goto :EOF
 
-    :: callback via the id
+:class_generic
+    :: Generic Class in Batch
+    ::  (int) a
+    ::  (int) b
+    :: ...
+
+    :: auto incrementing 
+    
+    call :idx "class_map"
+
+    :: This is for error handling. Needed?
+    ::if [%1] EQU [] echo None
+    
+    :: set class attributes in {id}_{attr_name} format
+    set _%id%_width=%1
+    set _%id%_height=%2
+
+    echo w: %1 h: %2 id: _%id%_id
+
+    set RETURN = "%1|%2"
+    :: returns with value set
+    goto :EOF
+
+    
     :echo_map
         :: ...
-    
+        goto :EOF
 
-:class_entity
-    :: This setups an entity
-    :: At first it sets the id temp
-
-    set id = %1
-    if [%1] EQU [] echo None
-    
-    :: callback via the id
-    set %id%_name = %2
-    set %id%_hp = %3
-    set %id%_atk = %4
-    set %id%_def = %5
-
-:EOL
-    echo "App reached EOL..."
-:RETURN
-    echo "returned from %1"
+:idx
+    :: This is the autoincrementing id for the classes
+    :: must be called in the class initialization
+    set /a id+=1
+    set _%id%_id=%1
+    goto :EOF
