@@ -6,6 +6,15 @@
 :: generating Map
 
 
+:opening_msg
+    echo -----------------------
+    cecho [ :32 1 :0 ] Adventure 
+    cecho [ :32 2 :0 ] Farm
+    cecho [ :32 3 :0 ] Inventory
+    cecho [ :32 4 :0 ] Bank
+    pause 2>NUL
+    goto opening_msg
+
 
 for /l %%a in (0,1,10) do (
     cecho :35 %%a :0
